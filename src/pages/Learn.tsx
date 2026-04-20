@@ -111,6 +111,28 @@ const Learn = () => {
 
   if (id && !moduleId) {
     // 如果有课程ID但没有模块ID，重定向到单词记忆模块
+    console.log('Rendering word memory module with id:', id)
+    console.log('Words:', words)
+    console.log('Current word index:', currentWordIndex)
+    
+    // 确保words数组不为空
+    if (words.length === 0) {
+      return (
+        <div className="min-h-screen bg-gray-50 pt-16">
+          <section className="py-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold mb-6">加载中...</h2>
+                  <p className="text-gray-600">正在加载课程内容，请稍候...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      )
+    }
+    
     return (
       <div className="min-h-screen bg-gray-50 pt-16">
         <section className="py-12">
@@ -122,11 +144,11 @@ const Learn = () => {
                 transition={{ duration: 0.5 }}
                 className="text-center"
               >
-                <h2 className="text-3xl font-bold mb-6">{words[currentWordIndex].word}</h2>
+                <h2 className="text-3xl font-bold mb-6">{words[currentWordIndex]?.word || '加载中...'}</h2>
                 {showAnswer ? (
                   <div className="mb-6">
-                    <p className="text-xl text-gray-700 mb-2">{words[currentWordIndex].meaning}</p>
-                    <p className="text-gray-600 italic">{words[currentWordIndex].example}</p>
+                    <p className="text-xl text-gray-700 mb-2">{words[currentWordIndex]?.meaning || '加载中...'}</p>
+                    <p className="text-gray-600 italic">{words[currentWordIndex]?.example || '加载中...'}</p>
                   </div>
                 ) : (
                   <button
