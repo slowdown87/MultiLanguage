@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Book, Clock, Award, ArrowRight, Play, Pause, CheckCircle, BookOpen, Headphones, Mic, Code } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
@@ -7,15 +7,60 @@ const Learn = () => {
   const { id, moduleId } = useParams<{ id: string; moduleId: string }>()
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const [showAnswer, setShowAnswer] = useState<boolean>(false)
-
-  // 模拟数据
-  const words = [
+  const [words, setWords] = useState([
     { word: 'apple', meaning: '苹果', example: 'I like to eat apples.' },
     { word: 'banana', meaning: '香蕉', example: 'Bananas are yellow.' },
     { word: 'cat', meaning: '猫', example: 'The cat is sleeping.' },
     { word: 'dog', meaning: '狗', example: 'Dogs are loyal animals.' },
     { word: 'house', meaning: '房子', example: 'I live in a big house.' },
-  ]
+  ])
+
+  // 模拟数据
+  const getWordsByCourseId = (courseId: string) => {
+    switch(courseId) {
+      case '1': // 英语基础入门
+        return [
+          { word: 'apple', meaning: '苹果', example: 'I like to eat apples.' },
+          { word: 'banana', meaning: '香蕉', example: 'Bananas are yellow.' },
+          { word: 'cat', meaning: '猫', example: 'The cat is sleeping.' },
+          { word: 'dog', meaning: '狗', example: 'Dogs are loyal animals.' },
+          { word: 'house', meaning: '房子', example: 'I live in a big house.' },
+        ]
+      case '4': // 日语五十音图
+        return [
+          { word: 'あ (a)', meaning: '啊', example: 'ありがとう (arigatou) - 谢谢' },
+          { word: 'い (i)', meaning: '伊', example: 'いい (ii) - 好的' },
+          { word: 'う (u)', meaning: '宇', example: 'うみ (umi) - 海' },
+          { word: 'え (e)', meaning: '江', example: 'えいご (eigo) - 英语' },
+          { word: 'お (o)', meaning: '於', example: 'おはよう (ohayou) - 早上好' },
+        ]
+      case '6': // 韩语基础入门
+        return [
+          { word: '사과 (sagwa)', meaning: '苹果', example: '사과를 먹어요 (sagwareul meogeoyo) - 吃苹果' },
+          { word: '바나나 (banana)', meaning: '香蕉', example: '바나나는 노랗습니다 (banananeun noraseumnida) - 香蕉是黄色的' },
+          { word: '고양이 (goyangi)', meaning: '猫', example: '고양이가 자고 있어요 (goyangiga jago isseoyo) - 猫在睡觉' },
+          { word: '개 (gae)', meaning: '狗', example: '개는 충성스러운 동물입니다 (gaeneun chungseongseureoun dongmulimnida) - 狗是忠诚的动物' },
+          { word: '집 (jip)', meaning: '房子', example: '큰 집에 살아요 (keun jibe sarayo) - 住在大房子里' },
+        ]
+      default:
+        return [
+          { word: 'apple', meaning: '苹果', example: 'I like to eat apples.' },
+          { word: 'banana', meaning: '香蕉', example: 'Bananas are yellow.' },
+          { word: 'cat', meaning: '猫', example: 'The cat is sleeping.' },
+          { word: 'dog', meaning: '狗', example: 'Dogs are loyal animals.' },
+          { word: 'house', meaning: '房子', example: 'I live in a big house.' },
+        ]
+    }
+  }
+
+  // 当id变化时更新单词列表
+  useEffect(() => {
+    if (id) {
+      setWords(getWordsByCourseId(id))
+      setCurrentWordIndex(0)
+      setShowAnswer(false)
+    }
+  }, [id])
 
   const learningProgress = {
     totalCourses: 5,
