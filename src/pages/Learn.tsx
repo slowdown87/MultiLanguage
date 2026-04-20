@@ -4,7 +4,9 @@ import { Book, Clock, Award, ArrowRight, Play, Pause, CheckCircle, BookOpen, Hea
 import { Link, useParams } from 'react-router-dom'
 
 const Learn = () => {
-  const { id, moduleId } = useParams<{ id: string; moduleId: string }>()
+  const params = useParams()
+  const id = params.id
+  const moduleId = params.moduleId
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const [showAnswer, setShowAnswer] = useState<boolean>(false)
   const [words, setWords] = useState([
@@ -34,6 +36,14 @@ const Learn = () => {
           { word: 'え (e)', meaning: '江', example: 'えいご (eigo) - 英语' },
           { word: 'お (o)', meaning: '於', example: 'おはよう (ohayou) - 早上好' },
         ]
+      case '5': // 日语日常会话
+        return [
+          { word: 'こんにちは', meaning: '你好', example: 'こんにちは、お元気ですか？ - 你好，你好吗？' },
+          { word: 'ありがとう', meaning: '谢谢', example: 'ありがとうございます - 非常感谢' },
+          { word: 'はい', meaning: '是', example: 'はい、そうです - 是的，没错' },
+          { word: 'いいえ', meaning: '不', example: 'いいえ、違います - 不，不是' },
+          { word: 'さようなら', meaning: '再见', example: 'さようなら、また明日 - 再见，明天见' },
+        ]
       case '6': // 韩语基础入门
         return [
           { word: '사과 (sagwa)', meaning: '苹果', example: '사과를 먹어요 (sagwareul meogeoyo) - 吃苹果' },
@@ -41,6 +51,14 @@ const Learn = () => {
           { word: '고양이 (goyangi)', meaning: '猫', example: '고양이가 자고 있어요 (goyangiga jago isseoyo) - 猫在睡觉' },
           { word: '개 (gae)', meaning: '狗', example: '개는 충성스러운 동물입니다 (gaeneun chungseongseureoun dongmulimnida) - 狗是忠诚的动物' },
           { word: '집 (jip)', meaning: '房子', example: '큰 집에 살아요 (keun jibe sarayo) - 住在大房子里' },
+        ]
+      case '7': // 法语基础入门
+        return [
+          { word: 'bonjour', meaning: '你好', example: 'Bonjour, comment allez-vous? - 你好，你好吗？' },
+          { word: 'merci', meaning: '谢谢', example: 'Merci beaucoup - 非常感谢' },
+          { word: 'oui', meaning: '是', example: 'Oui, c\'est ça - 是的，就是这样' },
+          { word: 'non', meaning: '不', example: 'Non, je ne pense pas - 不，我不这么认为' },
+          { word: 'au revoir', meaning: '再见', example: 'Au revoir, à demain - 再见，明天见' },
         ]
       default:
         return [
@@ -87,6 +105,78 @@ const Learn = () => {
   const handlePrevWord = () => {
     setCurrentWordIndex((prev) => (prev - 1 + words.length) % words.length)
     setShowAnswer(false)
+  }
+
+  if (id && !moduleId) {
+    // 如果有课程ID但没有模块ID，重定向到单词记忆模块
+    return (
+      <div className="min-h-screen bg-gray-50 pt-16">
+        <section className="py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center"
+              >
+                <h2 className="text-3xl font-bold mb-6">{words[currentWordIndex].word}</h2>
+                {showAnswer ? (
+                  <div className="mb-6">
+                    <p className="text-xl text-gray-700 mb-2">{words[currentWordIndex].meaning}</p>
+                    <p className="text-gray-600 italic">{words[currentWordIndex].example}</p>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowAnswer(true)}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors mb-6"
+                  >
+                    显示答案
+                  </button>
+                )}
+                <div className="flex justify-between">
+                  <button
+                    onClick={handlePrevWord}
+                    className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+                  >
+                    上一个
+                  </button>
+                  <button
+                    onClick={handleNextWord}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    下一个
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* 学习统计 */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold mb-4">学习统计</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">{currentWordIndex + 1}/{words.length}</div>
+                  <div className="text-sm text-gray-600">当前进度</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">85%</div>
+                  <div className="text-sm text-gray-600">正确率</div>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">15</div>
+                  <div className="text-sm text-gray-600">学习分钟</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-purple-600">5</div>
+                  <div className="text-sm text-gray-600">掌握单词</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
   }
 
   if (moduleId) {
@@ -263,7 +353,7 @@ const Learn = () => {
                 <h3 className="font-medium mb-2">单词记忆</h3>
                 <p className="text-sm text-gray-600 mb-4">学习和记忆新单词</p>
                 <Link
-                  to="/learn/1/1"
+                  to={`/learn/${id || '1'}/1`}
                   className="text-blue-600 font-medium hover:text-blue-800 text-sm"
                 >
                   开始学习
@@ -281,7 +371,7 @@ const Learn = () => {
                 <h3 className="font-medium mb-2">语法练习</h3>
                 <p className="text-sm text-gray-600 mb-4">练习语法规则</p>
                 <Link
-                  to="/learn/1/2"
+                  to={`/learn/${id || '1'}/2`}
                   className="text-green-600 font-medium hover:text-green-800 text-sm"
                 >
                   开始学习
@@ -299,7 +389,7 @@ const Learn = () => {
                 <h3 className="font-medium mb-2">口语跟读</h3>
                 <p className="text-sm text-gray-600 mb-4">练习口语发音</p>
                 <Link
-                  to="/learn/1/3"
+                  to={`/learn/${id || '1'}/3`}
                   className="text-yellow-600 font-medium hover:text-yellow-800 text-sm"
                 >
                   开始学习
@@ -317,7 +407,7 @@ const Learn = () => {
                 <h3 className="font-medium mb-2">听力训练</h3>
                 <p className="text-sm text-gray-600 mb-4">提高听力理解</p>
                 <Link
-                  to="/learn/1/4"
+                  to={`/learn/${id || '1'}/4`}
                   className="text-purple-600 font-medium hover:text-purple-800 text-sm"
                 >
                   开始学习
