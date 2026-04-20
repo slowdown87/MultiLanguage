@@ -74,7 +74,7 @@ const Learn = () => {
   // 当id变化时更新单词列表
   useEffect(() => {
     if (id) {
-      setWords(getWordsByCourseId(id))
+      setWords(getWordsByCourseId(String(id)))
       setCurrentWordIndex(0)
       setShowAnswer(false)
     }
