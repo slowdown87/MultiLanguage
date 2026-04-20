@@ -7,6 +7,9 @@ const Learn = () => {
   const params = useParams()
   const id = params.id
   const moduleId = params.moduleId
+  console.log('Learn component params:', params)
+  console.log('Learn component id:', id)
+  console.log('Learn component moduleId:', moduleId)
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const [showAnswer, setShowAnswer] = useState<boolean>(false)
   const [words, setWords] = useState([
