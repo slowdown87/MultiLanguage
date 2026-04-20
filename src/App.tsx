@@ -11,7 +11,7 @@ import Register from "./pages/Register";
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/MultiLanguage">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
