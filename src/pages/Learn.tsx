@@ -4,10 +4,7 @@ import { Book, Clock, Award, ArrowRight, Play, Pause, CheckCircle, BookOpen, Hea
 import { Link, useParams } from 'react-router-dom'
 
 const Learn = () => {
-  const params = useParams()
-  const id = params.id
-  const moduleId = params.moduleId
-  console.log('Learn component params:', params)
+  const { id, moduleId } = useParams<{ id: string; moduleId: string }>()
   console.log('Learn component id:', id)
   console.log('Learn component moduleId:', moduleId)
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
