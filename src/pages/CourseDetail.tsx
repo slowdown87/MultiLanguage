@@ -7,58 +7,334 @@ const CourseDetail = () => {
   const { id } = useParams<{ id: string }>()
   const [activeModule, setActiveModule] = useState<number>(0)
 
-  // 模拟数据
-  const course = {
-    id: 1,
-    title: '英语基础入门',
-    language: '英语',
-    level: '初级',
-    description: '适合零基础学习者，学习基本的英语词汇和语法。本课程包含4个模块，涵盖日常生活中最常用的英语表达。',
-    duration: 60,
-    modules: 4,
-    progress: 30,
-    objectives: [
-      '掌握基础英语词汇',
-      '学习基本语法结构',
-      '能够进行简单的英语对话',
-      '理解基础英语听力材料',
-    ],
+  // 模拟数据 - 根据课程ID获取对应课程
+  const getCourseData = (courseId: string) => {
+    switch(courseId) {
+      case '1':
+        return {
+          course: {
+            id: 1,
+            title: '英语基础入门',
+            language: '英语',
+            level: '初级',
+            description: '适合零基础学习者，学习基本的英语词汇和语法。本课程包含4个模块，涵盖日常生活中最常用的英语表达。',
+            duration: 60,
+            modules: 4,
+            progress: 30,
+            objectives: [
+              '掌握基础英语词汇',
+              '学习基本语法结构',
+              '能够进行简单的英语对话',
+              '理解基础英语听力材料',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '单词记忆',
+              type: 'vocabulary',
+              description: '学习日常生活中最常用的英语单词',
+              duration: 15,
+              completed: true,
+            },
+            {
+              id: 2,
+              title: '语法练习',
+              type: 'grammar',
+              description: '学习基本的英语语法结构',
+              duration: 20,
+              completed: true,
+            },
+            {
+              id: 3,
+              title: '口语跟读',
+              type: 'speaking',
+              description: '练习英语发音和口语表达',
+              duration: 15,
+              completed: false,
+            },
+            {
+              id: 4,
+              title: '听力训练',
+              type: 'listening',
+              description: '提高英语听力理解能力',
+              duration: 10,
+              completed: false,
+            },
+          ],
+        }
+      case '4':
+        return {
+          course: {
+            id: 4,
+            title: '日语五十音图',
+            language: '日语',
+            level: '初级',
+            description: '适合零基础学习者，掌握日语假名的发音和书写。本课程包含3个模块，帮助你快速入门日语。',
+            duration: 45,
+            modules: 3,
+            progress: 70,
+            objectives: [
+              '掌握五十音图的所有假名',
+              '学习假名的正确发音',
+              '能够读写平假名和片假名',
+              '理解日语的基本发音规则',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '平假名入门',
+              type: 'vocabulary',
+              description: '学习平假名的发音和书写',
+              duration: 15,
+              completed: true,
+            },
+            {
+              id: 2,
+              title: '片假名入门',
+              type: 'vocabulary',
+              description: '学习片假名的发音和书写',
+              duration: 15,
+              completed: true,
+            },
+            {
+              id: 3,
+              title: '发音练习',
+              type: 'speaking',
+              description: '练习日语的基本发音和音调',
+              duration: 15,
+              completed: false,
+            },
+          ],
+        }
+      case '5':
+        return {
+          course: {
+            id: 5,
+            title: '日语日常会话',
+            language: '日语',
+            level: '中级',
+            description: '适合有一定基础的学习者，学习日常生活中最常用的日语表达。本课程包含5个模块，涵盖日常交流场景。',
+            duration: 80,
+            modules: 5,
+            progress: 0,
+            objectives: [
+              '掌握日常日语对话',
+              '学习实用日语词汇',
+              '能够进行基本的日语交流',
+              '理解日语的表达方式',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '问候与自我介绍',
+              type: 'vocabulary',
+              description: '学习日语中的问候语和自我介绍',
+              duration: 16,
+              completed: false,
+            },
+            {
+              id: 2,
+              title: '购物与数字',
+              type: 'vocabulary',
+              description: '学习日语中的数字和购物用语',
+              duration: 16,
+              completed: false,
+            },
+            {
+              id: 3,
+              title: '交通与出行',
+              type: 'vocabulary',
+              description: '学习日语中的交通和出行用语',
+              duration: 16,
+              completed: false,
+            },
+            {
+              id: 4,
+              title: '餐饮与点餐',
+              type: 'vocabulary',
+              description: '学习日语中的餐饮和点餐用语',
+              duration: 16,
+              completed: false,
+            },
+            {
+              id: 5,
+              title: '日常交流',
+              type: 'vocabulary',
+              description: '学习日语中的日常交流用语',
+              duration: 16,
+              completed: false,
+            },
+          ],
+        }
+      case '6':
+        return {
+          course: {
+            id: 6,
+            title: '韩语基础入门',
+            language: '韩语',
+            level: '初级',
+            description: '适合零基础学习者，学习韩语的基本字母和发音。本课程包含4个模块，帮助你快速入门韩语。',
+            duration: 50,
+            modules: 4,
+            progress: 0,
+            objectives: [
+              '掌握韩文字母的发音和书写',
+              '学习基础韩语词汇',
+              '能够进行简单的韩语对话',
+              '理解韩语的基本语法结构',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '韩文字母入门',
+              type: 'vocabulary',
+              description: '学习韩文字母的发音和书写',
+              duration: 12.5,
+              completed: false,
+            },
+            {
+              id: 2,
+              title: '基础韩语词汇',
+              type: 'vocabulary',
+              description: '学习日常生活中最常用的韩语单词',
+              duration: 12.5,
+              completed: false,
+            },
+            {
+              id: 3,
+              title: '韩语发音练习',
+              type: 'speaking',
+              description: '练习韩语的发音和口语表达',
+              duration: 12.5,
+              completed: false,
+            },
+            {
+              id: 4,
+              title: '简单韩语对话',
+              type: 'listening',
+              description: '提高韩语听力和对话理解能力',
+              duration: 12.5,
+              completed: false,
+            },
+          ],
+        }
+      case '7':
+        return {
+          course: {
+            id: 7,
+            title: '法语基础入门',
+            language: '法语',
+            level: '初级',
+            description: '适合零基础学习者，学习法语的基本字母和发音。本课程包含4个模块，帮助你快速入门法语。',
+            duration: 55,
+            modules: 4,
+            progress: 0,
+            objectives: [
+              '掌握法文字母的发音和书写',
+              '学习基础法语词汇',
+              '能够进行简单的法语对话',
+              '理解法语的基本语法结构',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '法文字母入门',
+              type: 'vocabulary',
+              description: '学习法文字母的发音和书写',
+              duration: 13.75,
+              completed: false,
+            },
+            {
+              id: 2,
+              title: '基础法语词汇',
+              type: 'vocabulary',
+              description: '学习日常生活中最常用的法语单词',
+              duration: 13.75,
+              completed: false,
+            },
+            {
+              id: 3,
+              title: '法语发音练习',
+              type: 'speaking',
+              description: '练习法语的发音和口语表达',
+              duration: 13.75,
+              completed: false,
+            },
+            {
+              id: 4,
+              title: '简单法语对话',
+              type: 'listening',
+              description: '提高法语听力和对话理解能力',
+              duration: 13.75,
+              completed: false,
+            },
+          ],
+        }
+      default:
+        return {
+          course: {
+            id: 1,
+            title: '英语基础入门',
+            language: '英语',
+            level: '初级',
+            description: '适合零基础学习者，学习基本的英语词汇和语法。本课程包含4个模块，涵盖日常生活中最常用的英语表达。',
+            duration: 60,
+            modules: 4,
+            progress: 30,
+            objectives: [
+              '掌握基础英语词汇',
+              '学习基本语法结构',
+              '能够进行简单的英语对话',
+              '理解基础英语听力材料',
+            ],
+          },
+          modules: [
+            {
+              id: 1,
+              title: '单词记忆',
+              type: 'vocabulary',
+              description: '学习日常生活中最常用的英语单词',
+              duration: 15,
+              completed: true,
+            },
+            {
+              id: 2,
+              title: '语法练习',
+              type: 'grammar',
+              description: '学习基本的英语语法结构',
+              duration: 20,
+              completed: true,
+            },
+            {
+              id: 3,
+              title: '口语跟读',
+              type: 'speaking',
+              description: '练习英语发音和口语表达',
+              duration: 15,
+              completed: false,
+            },
+            {
+              id: 4,
+              title: '听力训练',
+              type: 'listening',
+              description: '提高英语听力理解能力',
+              duration: 10,
+              completed: false,
+            },
+          ],
+        }
+    }
   }
 
-  const courseModules = [
-    {
-      id: 1,
-      title: '单词记忆',
-      type: 'vocabulary',
-      description: '学习日常生活中最常用的英语单词',
-      duration: 15,
-      completed: true,
-    },
-    {
-      id: 2,
-      title: '语法练习',
-      type: 'grammar',
-      description: '学习基本的英语语法结构',
-      duration: 20,
-      completed: true,
-    },
-    {
-      id: 3,
-      title: '口语跟读',
-      type: 'speaking',
-      description: '练习英语发音和口语表达',
-      duration: 15,
-      completed: false,
-    },
-    {
-      id: 4,
-      title: '听力训练',
-      type: 'listening',
-      description: '提高英语听力理解能力',
-      duration: 10,
-      completed: false,
-    },
-  ]
+  // 获取当前课程数据
+  const courseData = getCourseData(id || '1')
+  const course = courseData.course
+  const courseModules = courseData.modules
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
